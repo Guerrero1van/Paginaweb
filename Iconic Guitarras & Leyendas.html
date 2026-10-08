@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guitarras Icónicas & Leyendas de la Música</title>
+    <!-- Tailwind CSS for utility styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0d0d11;
+            color: #e2e8f0;
+        }
+        h1, h2, h3, .font-heading {
+            font-family: 'Cinzel', serif;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d97706;
+            border-radius: 4px;
+        }
+
+        /* Custom styling for glow effects & gradients */
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #fef08a 0%, #f59e0b 50%, #b45309 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gold-border-glow {
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
+            transition: all 0.3s ease;
+        }
+        .gold-border-glow:hover {
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.4);
+        }
+
+        /* Accordion transition animations */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0, 1, 0, 1), opacity 0.3s ease;
+            opacity: 0;
+        }
+        .accordion-content.active {
+            max-height: 1000px;
+            transition: max-height 0.5s cubic-bezier(1, 0, 1, 0), opacity 0.4s ease;
+            opacity: 1;
+        }
+
+        /* Carousel animation helpers */
+        .carousel-slide {
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+            transform: scale(0.98);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .carousel-slide.active {
+            opacity: 1;
+            transform: scale(1);
+            position: relative;
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between overflow-x-hidden selection:bg-amber-500 selection:text-black">
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-50 bg-neutral-950/90 backdrop-blur-md border-b border-amber-900/40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-600 to-amber-400 flex items-center justify-center text-black font-bold text-xl shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-transform">
+                    <i class="fa-solid fa-guitar"></i>
+                </div>
+                <span class="font-heading text-xl sm:text-2xl font-bold tracking-wider gold-gradient-text">LEGENDARY GUITARS</span>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center space-x-8 font-semibold text-sm tracking-wide">
+                <a href="#carrusel" class="hover:text-amber-400 transition-colors text-slate-300">Carrusel</a>
+                <a href="#acordeon" class="hover:text-amber-400 transition-colors text-slate-300">Especificaciones</a>
+                <a href="#musicos" class="hover:text-amber-400 transition-colors text-slate-300">Músicos</a>
+                <a href="#filtro" class="hover:text-amber-400 transition-colors text-slate-300">Explorar & Filtrar</a>
+                <a href="#descargar" class="bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-neutral-950 font-bold px-4 py-2 rounded-lg shadow-lg transition-all transform hover:-translate-y-0.5">
+                    <i class="fa-solid fa-download mr-1.5"></i> Descargar HTML
+                </a>
+            </nav>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-2xl text-amber-500 hover:text-amber-400 focus:outline-none p-2">
+                <i class="fa-solid fa-bars" id="menu-icon"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden bg-neutral-900 border-b border-amber-900/50 px-6 py-4 space-y-3">
+            <a href="#carrusel" class="block text-slate-300 hover:text-amber-400 py-2 border-b border-neutral-800">Carrusel de Guitarras</a>
+            <a href="#acordeon" class="block text-slate-300 hover:text-amber-400 py-2 border-b border-neutral-800">Especificaciones Técnicas</a>
+            <a href="#musicos" class="block text-slate-300 hover:text-amber-400 py-2 border-b border-neutral-800">Músicos e Íconos</a>
+            <a href="#filtro" class="block text-slate-300 hover:text-amber-400 py-2 border-b border-neutral-800">Filtrar por Género</a>
+            <a href="#descargar" class="block text-center bg-amber-500 text-neutral-950 font-bold py-2 rounded-lg my-2">
+                <i class="fa-solid fa-download mr-1.5"></i> Descargar Código HTML
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative py-16 lg:py-24 overflow-hidden border-b border-neutral-800">
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-900/20 via-neutral-950 to-neutral-950 pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <span class="inline-block uppercase tracking-widest text-xs font-bold text-amber-500 bg-amber-950/60 border border-amber-800/60 px-4 py-1.5 rounded-full mb-4">
+                <i class="fa-solid fa-bolt mr-1"></i> Historia, Sonido y Leyendas
+            </span>
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tight mb-6">
+                El Alma de la <span class="gold-gradient-text">Música Moderna</span>
+            </h1>
+            <p class="max-w-3xl mx-auto text-lg sm:text-xl text-slate-400 font-light leading-relaxed mb-8">
+                Un recorrido interactivo por las guitarras más icónicas de la historia del rock y el blues, y los músicos legendarios que transformaron su madera y cuerdas en mito.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#carrusel" class="bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold px-8 py-3.5 rounded-xl transition-all shadow-lg shadow-amber-500/20 flex items-center gap-2">
+                    <i class="fa-solid fa-play"></i> Explorar Carrusel
+                </a>
+                <a href="#acordeon" class="bg-neutral-800 hover:bg-neutral-700 text-white font-semibold px-8 py-3.5 rounded-xl border border-neutral-700 transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-sliders"></i> Ver Fichas Técnicas
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Carousel Section -->
+    <section id="carrusel" class="py-16 bg-neutral-950 border-b border-neutral-800 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mb-3">Galería de Guitarras Emblemáticas</h2>
+                <p class="text-slate-400">Navega a través de las máquinas de riff más famosas de la historia.</p>
+            </div>
+
+            <!-- Carousel Container -->
+            <div class="relative bg-neutral-900/80 border border-neutral-800 rounded-2xl overflow-hidden shadow-2xl gold-border-glow min-h-[500px] flex items-center" id="carousel-container">
+                
+                <!-- Slide 1: Fender Stratocaster -->
+                <div class="carousel-slide active p-6 sm:p-12 w-full">
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div class="relative flex justify-center">
+                            <div class="w-full max-w-sm h-80 rounded-xl bg-gradient-to-tr from-amber-950/40 to-neutral-800 border border-amber-900/30 flex items-center justify-center p-6 relative overflow-hidden">
+                                <svg class="w-64 h-64 text-amber-500/80 drop-shadow-[0_10px_20px_rgba(245,158,11,0.3)]" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M20.3 3.7c-1.2-1.2-3.1-1.2-4.2 0l-8.6 8.6c-.6-.2-1.3-.1-1.8.4l-3 3c-.6.6-.6 1.5 0 2.1l3.5 3.5c.6.6 1.5.6 2.1 0l3-3c.5-.5.6-1.2.4-1.8l8.6-8.6c1.2-1.1 1.2-3 0-4.2z"/>
+                                </svg>
+                                <span class="absolute bottom-4 left-4 bg-amber-500/20 text-amber-400 text-xs font-semibold px-2.5 py-1 rounded">Cuerpo Sólido</span>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="inline-block bg-amber-500/10 text-amber-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Electric Guitar</div>
+                            <h3 class="text-3xl sm:text-4xl font-bold text-white">Fender Stratocaster</h3>
+                            <p class="text-slate-300 leading-relaxed">
+                                Lanzada en 1954, su diseño de doble recorte (double cutaway), cuerpo ergonómico y selector de tres/cinco pastillas revolucionó el tono de la guitarra eléctrica.
+                            </p>
+                            <div class="border-t border-neutral-800 pt-4 mt-4">
+                                <span class="text-xs text-amber-500 font-bold uppercase tracking-wider block mb-1">Músicos Legendarios:</span>
+                                <div class="flex flex-wrap gap-2 text-sm text-slate-200">
+                                    <span class="bg-neutral-800 px-3 py-1 rounded-full border border-neutral-700"><i class="fa-solid fa-user-ninja text-amber-500 mr-1"></i> Jimi Hendrix</span>
+                                    <span class="bg-neutral-800 px-3 py-1 rounded-full border border-neutral-700"><i class="fa-solid fa-guitar text-amber-500 mr-1"></i> David Gilmour</span>
+                                    <span class="bg-neutral-800 px-3 py-1 rounded-full border border-neutral-700"><i class="fa-solid fa-music text-amber-500 mr-1"></i> Eric Clapton</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2: Gibson Les Paul -->
+                <div class="carousel-slide p-6 sm:p-12 w-full">
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div class="relative flex justify-center">
+                            <div class="w-full max-w-sm h-80 rounded-xl bg-gradient-to-tr from-amber-950/40 to-neutral-800 border border-amber-900/30 flex items-center justify-center p-6 relative overflow-hidden">
+                                <svg class="w-64 h-64 text-amber-600/80 drop-shadow-[0_10px_20px_rgba(217,119,6,0.3)]" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                                </svg>
+                                <span class="absolute bottom-4 left-4 bg-amber-500/20 text-amber-400 text-xs font-semibold px-2.5 py-1 rounded">Humbucker Power</span>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="inline-block bg-amber-500/10 text-amber-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Electric Guitar</div>
+                            <h3 class="text-3xl sm:text-4xl font-bold text-white">Gibson Les Paul</h3>
+                            <p class="text-slate-300 leading-relaxed">
+                                Famosa por su cuerpo denso de caoba con tapa de arce y sus potentes pastillas Humbucker. Ofrece un sustain legendario, tono cálido y robusto idóneo para el Rock Duro.
+                            </p>
+                            <div class="border-t border-neutral-800 pt-4 mt-4">
+                                <span class="text-xs text-amber-500 font-bold uppercase tracking-wider block mb-1">Músicos Legendarios:</span>
+                                <div class="flex flex-wrap gap-2 text-sm text-slate-200">
+                                    <span class="bg-neutral-800 px-3 py-1 rounded-full border border-neutral-700"><i class="fa-solid fa-crown text-amber-500 mr-1"></i> Slash</span>
+                                    <span class="bg-neutral-800 px-3 py-1 rounded-full border border-neutral-700"><i class="fa-solid fa-bolt text-amber-500 mr-1"></i> Jimmy Page</span>
+                                    <span class="bg-neutral-800 px-3 py-1 rounded-full border border-neutral-700"><i class="fa-solid fa-compact-disc text-amber-500 mr-1"></i> Les Paul</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 3: Gibson SG -->
+                <div class="carousel-slide p-6 sm:p-12 w-full">
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div class="relative flex justify-center">
+                            <div class="w-full max-w-sm h-80 rounded-xl bg-gradient-to-tr from-red-950/40 to-neutral-800 border border-red-900/30 flex items-center justify-center p-6 relative overflow-hidden">
+                                <svg class="w-64 h-64 text-red-600/80 drop-shadow-[0_10px_20px_rgba(220,38,38,0.3)]" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                                </svg>
+                                <span class="absolute bottom-4 left-4 bg-red-500/20 text-red-400 text-xs font-semibold px-2.5 py-1 rounded">Doble Cuerno</span>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="inline-block bg-red-500/10 text-red-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Heavy Rock Classic</div>
+                            <h3 class="text-3xl sm:text-4xl font-bold text-white">Gibson SG (Solid Guitar)</h3>
+                            <p class="text-slate-300 leading-relaxed">
+                                Creada en 1961 como una versión más ligera y ágil de la Les Paul. Con sus característicos biseles en forma de "cuernos de diablo", ofrece un acceso inigualable a los trastes agudos.
+                            </p>
+                            <div class="border-t border-neutral-800 pt-4 mt-4">
+                                <span class="text-xs text-amber-500 font-bold uppercase tracking-wider block mb-1">Músicos Legendarios:</span>
+                                <div class="flex flex-wrap gap-2 text-sm text-slate-200">
+                                    <span class="bg-neutral-800 px-3 py-1 rounded-full border border-neutral-700"><i class="fa-solid fa-bolt text-amber-500 mr-1"></i> Angus Young</span>
+                                    <span class="bg-neutral-800 px-3 py-1 rounded-full border border-neutral-700"><i class="fa-solid fa-record-vinyl text-amber-500 mr-1"></i> Tony Iommi</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 4: Fender Telecaster -->
+                <div class="carousel-slide p-6 sm:p-12 w-full">
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div class="relative flex justify-center">
+                            <div class="w-full max-w-sm h-80 rounded-xl bg-gradient-to-tr from-amber-950/40 to-neutral-800 border border-amber-900/30 flex items-center justify-center p-6 relative overflow-hidden">
+                                <svg class="w-64 h-64 text-amber-400/80 drop-shadow-[0_10px_20px_rgba(251,191,36,0.3)]" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
+                                </svg>
+                                <span class="absolute bottom-4 left-4 bg-amber-500/20 text-amber-400 text-xs font-semibold px-2.5 py-1 rounded">Twang Puro</span>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="inline-block bg-amber-500/10 text-amber-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">First Solid Body</div>
+                            <h3 class="text-3xl sm:text-4xl font-bold text-white">Fender Telecaster</h3>
+                            <p class="text-slate-300 leading-relaxed">
+                                La primera guitarra eléctrica de cuerpo sólido fabricada en masa. Con un diseño simple y robusto, es célebre por su ataque percusivo y sonido brillante ("twang").
+                            </p>
+                            <div class="border-t border-neutral-800 pt-4 mt-4">
+                                <span class="text-xs text-amber-500 font-bold uppercase tracking-wider block mb-1">Músicos Legendarios:</span>
+                                <div class="flex flex-wrap gap-2 text-sm text-slate-200">
+                                    <span class="bg-neutral-800 px-3 py-1 rounded-full border border-neutral-700"><i class="fa-solid fa-guitar text-amber-500 mr-1"></i> Keith Richards</span>
+                                    <span class="bg-neutral-800 px-3 py-1 rounded-full border border-neutral-700"><i class="fa-solid fa-star text-amber-500 mr-1"></i> Bruce Springsteen</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Carousel Controls (Buttons) -->
+                <button id="prev-slide" class="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-neutral-900/80 border border-amber-500/30 text-amber-400 hover:bg-amber-500 hover:text-black transition-all flex items-center justify-center shadow-lg z-20">
+                    <i class="fa-solid fa-chevron-left text-lg"></i>
+                </button>
+                <button id="next-slide" class="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-neutral-900/80 border border-amber-500/30 text-amber-400 hover:bg-amber-500 hover:text-black transition-all flex items-center justify-center shadow-lg z-20">
+                    <i class="fa-solid fa-chevron-right text-lg"></i>
+                </button>
+
+                <!-- Indicator Dots -->
+                <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2 z-20" id="carousel-dots">
+                    <button class="w-3 h-3 rounded-full bg-amber-500 transition-all" data-index="0"></button>
+                    <button class="w-3 h-3 rounded-full bg-neutral-700 hover:bg-neutral-500 transition-all" data-index="1"></button>
+                    <button class="w-3 h-3 rounded-full bg-neutral-700 hover:bg-neutral-500 transition-all" data-index="2"></button>
+                    <button class="w-3 h-3 rounded-full bg-neutral-700 hover:bg-neutral-500 transition-all" data-index="3"></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Accordions Section: Detailed Specifications -->
+    <section id="acordeon" class="py-16 bg-neutral-900 border-b border-neutral-800">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-amber-500 font-semibold text-sm uppercase tracking-wider">Análisis en Detalle</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mt-1">Especificaciones Técnicas & Características</h2>
+                <p class="text-slate-400 mt-2">Haz clic en cada instrumento para desplegar sus detalles de construcción y timbre.</p>
+            </div>
+
+            <!-- Accordion Items Container -->
+            <div class="space-y-4">
+                
+                <!-- Accordion 1 -->
+                <div class="border border-neutral-800 rounded-xl bg-neutral-950/60 overflow-hidden">
+                    <button class="accordion-header w-full px-6 py-5 text-left flex justify-between items-center hover:bg-neutral-800/50 transition-colors focus:outline-none">
+                        <div class="flex items-center gap-4">
+                            <span class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-500 flex items-center justify-center font-bold">1</span>
+                            <span class="font-heading font-bold text-lg text-white">Fender Stratocaster - Versatilidad & Brillo</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down text-amber-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content px-6">
+                        <div class="py-5 border-t border-neutral-800/80 text-slate-300 text-sm space-y-3">
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                <p><strong class="text-amber-400">Madera del cuerpo:</strong> Aliso (Alder) o Fresno (Ash)</p>
+                                <p><strong class="text-amber-400">Mástil:</strong> Membrana de Arce (Maple) atornillado (Bolt-On)</p>
+                                <p><strong class="text-amber-400">Configuración Pastillas:</strong> 3 Single-Coils (SSS)</p>
+                                <p><strong class="text-amber-400">Puente:</strong> Tremolo Sincronizado</p>
+                            </div>
+                            <p class="pt-2 text-slate-400">
+                                Perfecta para Blues, Funk y Rock Clásico. Su posición 2 y 4 (pastillas combinadas) genera un sonido ahuecado único apodado "quack".
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accordion 2 -->
+                <div class="border border-neutral-800 rounded-xl bg-neutral-950/60 overflow-hidden">
+                    <button class="accordion-header w-full px-6 py-5 text-left flex justify-between items-center hover:bg-neutral-800/50 transition-colors focus:outline-none">
+                        <div class="flex items-center gap-4">
+                            <span class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-500 flex items-center justify-center font-bold">2</span>
+                            <span class="font-heading font-bold text-lg text-white">Gibson Les Paul - Potencia & Sustain</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down text-amber-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content px-6">
+                        <div class="py-5 border-t border-neutral-800/80 text-slate-300 text-sm space-y-3">
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                <p><strong class="text-amber-400">Madera del cuerpo:</strong> Caoba (Mahogany) con Tapa de Arce</p>
+                                <p><strong class="text-amber-400">Mástil:</strong> Caoba encolado (Set-Neck)</p>
+                                <p><strong class="text-amber-400">Configuración Pastillas:</strong> 2 Humbuckers (PAF)</p>
+                                <p><strong class="text-amber-400">Puente:</strong> Tune-O-Matic con Stopbar</p>
+                            </div>
+                            <p class="pt-2 text-slate-400">
+                                Su construcción pesada y mástil encolado le otorgan un tono denso, cálido y con una duración de nota (sustain) inigualable, ideal para el Hard Rock.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accordion 3 -->
+                <div class="border border-neutral-800 rounded-xl bg-neutral-950/60 overflow-hidden">
+                    <button class="accordion-header w-full px-6 py-5 text-left flex justify-between items-center hover:bg-neutral-800/50 transition-colors focus:outline-none">
+                        <div class="flex items-center gap-4">
+                            <span class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-500 flex items-center justify-center font-bold">3</span>
+                            <span class="font-heading font-bold text-lg text-white">Gibson SG - Ligereza & Agresividad</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down text-amber-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content px-6">
+                        <div class="py-5 border-t border-neutral-800/80 text-slate-300 text-sm space-y-3">
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                <p><strong class="text-amber-400">Madera del cuerpo:</strong> Caoba Maciza delgada</p>
+                                <p><strong class="text-amber-400">Mástil:</strong> Caoba delgado y rápido</p>
+                                <p><strong class="text-amber-400">Configuración Pastillas:</strong> 2 Humbuckers</p>
+                                <p><strong class="text-amber-400">Escala:</strong> 24.75 pulgadas</p>
+                            </div>
+                            <p class="pt-2 text-slate-400">
+                                Tono más incisivo y directo con medios muy marcados. Su peso reducido permite una gran agilidad en el escenario.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accordion 4 -->
+                <div class="border border-neutral-800 rounded-xl bg-neutral-950/60 overflow-hidden">
+                    <button class="accordion-header w-full px-6 py-5 text-left flex justify-between items-center hover:bg-neutral-800/50 transition-colors focus:outline-none">
+                        <div class="flex items-center gap-4">
+                            <span class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-500 flex items-center justify-center font-bold">4</span>
+                            <span class="font-heading font-bold text-lg text-white">Fender Telecaster - Rigidez & Ataque</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down text-amber-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content px-6">
+                        <div class="py-5 border-t border-neutral-800/80 text-slate-300 text-sm space-y-3">
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                <p><strong class="text-amber-400">Madera del cuerpo:</strong> Fresno o Aliso</p>
+                                <p><strong class="text-amber-400">Pastilla de Puente:</strong> Placa de metal base (Brillante)</p>
+                                <p><strong class="text-amber-400">Pastilla de Mástil:</strong> Single-Coil cromada fina</p>
+                                <p><strong class="text-amber-400">Puente:</strong> 3 o 6 selletas vintage</p>
+                            </div>
+                            <p class="pt-2 text-slate-400">
+                                Esencial en Country, Indie y Rock Clásico por cortar a través de cualquier mezcla musical.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Musicians Section -->
+    <section id="musicos" class="py-16 bg-neutral-950 border-b border-neutral-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-amber-500 font-semibold text-sm uppercase tracking-wider">Maestros del Traste</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mt-1">Leyendas y sus Guitarras</h2>
+                <p class="text-slate-400 mt-2">Los virtuosos que inmortalizaron estos instrumentos.</p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Musician Card 1 -->
+                <div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 flex flex-col justify-between hover:border-amber-500/50 transition-all duration-300 group">
+                    <div>
+                        <div class="w-16 h-16 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-2xl font-bold mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-guitar"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-1">Jimi Hendrix</h3>
+                        <p class="text-xs text-amber-500 font-semibold uppercase tracking-wider mb-3">Fender Stratocaster</p>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                            Revolucionó el uso de la guitarra eléctrica tocándola al revés siendo zurdo y dominando el acople y los efectos de distorsión.
+                        </p>
+                    </div>
+                    <div class="border-t border-neutral-800 pt-3">
+                        <span class="text-xs text-slate-500 uppercase block font-semibold">Tema Emblemático:</span>
+                        <span class="text-sm text-slate-300 font-medium">"Purple Haze"</span>
+                    </div>
+                </div>
+
+                <!-- Musician Card 2 -->
+                <div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 flex flex-col justify-between hover:border-amber-500/50 transition-all duration-300 group">
+                    <div>
+                        <div class="w-16 h-16 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-2xl font-bold mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-crown"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-1">Slash</h3>
+                        <p class="text-xs text-amber-500 font-semibold uppercase tracking-wider mb-3">Gibson Les Paul</p>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                            Mantuvo vivo el espíritu del Hard Rock con riffs memorables y solos expresivos llenos de sustain en Guns N' Roses.
+                        </p>
+                    </div>
+                    <div class="border-t border-neutral-800 pt-3">
+                        <span class="text-xs text-slate-500 uppercase block font-semibold">Tema Emblemático:</span>
+                        <span class="text-sm text-slate-300 font-medium">"Sweet Child O' Mine"</span>
+                    </div>
+                </div>
+
+                <!-- Musician Card 3 -->
+                <div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 flex flex-col justify-between hover:border-amber-500/50 transition-all duration-300 group">
+                    <div>
+                        <div class="w-16 h-16 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-2xl font-bold mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-1">Angus Young</h3>
+                        <p class="text-xs text-amber-500 font-semibold uppercase tracking-wider mb-3">Gibson SG</p>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                            El alma eléctrica de AC/DC. Su energía inagotable y su tono directo han definido el sonido del rock de estadios.
+                        </p>
+                    </div>
+                    <div class="border-t border-neutral-800 pt-3">
+                        <span class="text-xs text-slate-500 uppercase block font-semibold">Tema Emblemático:</span>
+                        <span class="text-sm text-slate-300 font-medium">"Back in Black"</span>
+                    </div>
+                </div>
+
+                <!-- Musician Card 4 -->
+                <div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 flex flex-col justify-between hover:border-amber-500/50 transition-all duration-300 group">
+                    <div>
+                        <div class="w-16 h-16 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-2xl font-bold mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-record-vinyl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-1">David Gilmour</h3>
+                        <p class="text-xs text-amber-500 font-semibold uppercase tracking-wider mb-3">Fender Stratocaster ("Black Strat")</p>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                            Maestro de Pink Floyd, conocido por su fraseo melódico, bends sostenidos e impecable selección de efectos atmosféticos.
+                        </p>
+                    </div>
+                    <div class="border-t border-neutral-800 pt-3">
+                        <span class="text-xs text-slate-500 uppercase block font-semibold">Tema Emblemático:</span>
+                        <span class="text-sm text-slate-300 font-medium">"Comfortably Numb"</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Filterable Guitars Section -->
+    <section id="filtro" class="py-16 bg-neutral-900 border-b border-neutral-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mb-3">Catálogo Interactivo por Género</h2>
+                <p class="text-slate-400">Filtra los modelos para encontrar el instrumento ideal según el género musical.</p>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="flex flex-wrap justify-center gap-3 mb-10" id="filter-buttons">
+                <button data-filter="all" class="filter-btn active bg-amber-500 text-neutral-950 font-bold px-5 py-2 rounded-full transition-all">Todos</button>
+                <button data-filter="rock" class="filter-btn bg-neutral-800 hover:bg-neutral-700 text-slate-300 font-semibold px-5 py-2 rounded-full transition-all">Hard Rock</button>
+                <button data-filter="blues" class="filter-btn bg-neutral-800 hover:bg-neutral-700 text-slate-300 font-semibold px-5 py-2 rounded-full transition-all">Blues & Funk</button>
+                <button data-filter="metal" class="filter-btn bg-neutral-800 hover:bg-neutral-700 text-slate-300 font-semibold px-5 py-2 rounded-full transition-all">Heavy Metal</button>
+            </div>
+
+            <!-- Filterable Grid -->
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6" id="guitar-grid">
+                
+                <!-- Item 1 -->
+                <div class="guitar-item rock blues bg-neutral-950 border border-neutral-800 rounded-xl p-6 transition-all duration-300">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-white">Fender Stratocaster</h3>
+                        <span class="text-xs bg-amber-500/10 text-amber-400 px-2.5 py-1 rounded">Blues / Rock</span>
+                    </div>
+                    <p class="text-slate-400 text-sm mb-4">Tono cristalino en limpio y ataque orgánico en saturación.</p>
+                    <span class="text-xs text-slate-500">Músicos: Jimi Hendrix, Stevie Ray Vaughan</span>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="guitar-item rock metal bg-neutral-950 border border-neutral-800 rounded-xl p-6 transition-all duration-300">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-white">Gibson Les Paul</h3>
+                        <span class="text-xs bg-amber-500/10 text-amber-400 px-2.5 py-1 rounded">Hard Rock / Metal</span>
+                    </div>
+                    <p class="text-slate-400 text-sm mb-4">Cuerpo pesado con gran masa armónica y distorsión rugiente.</p>
+                    <span class="text-xs text-slate-500">Músicos: Slash, Jimmy Page, Zakk Wylde</span>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="guitar-item metal rock bg-neutral-950 border border-neutral-800 rounded-xl p-6 transition-all duration-300">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-white">Gibson SG</h3>
+                        <span class="text-xs bg-amber-500/10 text-amber-400 px-2.5 py-1 rounded">Rock / Metal</span>
+                    </div>
+                    <p class="text-slate-400 text-sm mb-4">Respuesta rápida y corte penetrante para solos ágiles.</p>
+                    <span class="text-xs text-slate-500">Músicos: Angus Young, Tony Iommi</span>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="guitar-item blues rock bg-neutral-950 border border-neutral-800 rounded-xl p-6 transition-all duration-300">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-white">Fender Telecaster</h3>
+                        <span class="text-xs bg-amber-500/10 text-amber-400 px-2.5 py-1 rounded">Blues / Rock</span>
+                    </div>
+                    <p class="text-slate-400 text-sm mb-4">Construcción indestructible con agudos brillantes y claros.</p>
+                    <span class="text-xs text-slate-500">Músicos: Keith Richards, Jeff Beck</span>
+                </div>
+
+                <!-- Item 5 -->
+                <div class="guitar-item blues bg-neutral-950 border border-neutral-800 rounded-xl p-6 transition-all duration-300">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-white">Gibson ES-335</h3>
+                        <span class="text-xs bg-amber-500/10 text-amber-400 px-2.5 py-1 rounded">Blues / Jazz</span>
+                    </div>
+                    <p class="text-slate-400 text-sm mb-4">Guitarra semi-hueca con bloque central, equilibrio entre acústico y eléctrico.</p>
+                    <span class="text-xs text-slate-500">Músicos: B.B. King, Larry Carlton</span>
+                </div>
+
+                <!-- Item 6 -->
+                <div class="guitar-item rock metal bg-neutral-950 border border-neutral-800 rounded-xl p-6 transition-all duration-300">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-white">PRS Custom 24</h3>
+                        <span class="text-xs bg-amber-500/10 text-amber-400 px-2.5 py-1 rounded">Modern Rock</span>
+                    </div>
+                    <p class="text-slate-400 text-sm mb-4">Punto medio entre el timbre Fender y la potencia Gibson.</p>
+                    <span class="text-xs text-slate-500">Músicos: Carlos Santana, Mark Tremonti</span>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Deliverable Section -->
+    <section id="descargar" class="py-16 bg-neutral-950 text-center relative overflow-hidden">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="w-16 h-16 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-400 flex items-center justify-center text-3xl mx-auto mb-6">
+                <i class="fa-solid fa-file-code"></i>
+            </div>
+            <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">Entregable: Descargar Código HTML</h2>
+            <p class="text-slate-400 max-w-xl mx-auto mb-8">
+                Guarda una copia completa e independiente de este proyecto web interactivo directo en tu equipo.
+            </p>
+            <button id="download-btn" class="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-neutral-950 font-extrabold text-lg px-8 py-4 rounded-xl shadow-xl shadow-amber-500/20 transition-all transform hover:scale-105 inline-flex items-center gap-3">
+                <i class="fa-solid fa-download"></i> Descargar index.html
+            </button>
+            <p id="download-status" class="text-xs text-amber-400 mt-3 hidden">¡Descarga iniciada correctamente!</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-neutral-950 border-t border-neutral-900 py-8 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4">
+            <p>© Guitarras Icónicas & Leyendas. Proyecto interactivo en HTML5 y CSS3.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- 1. Mobile Menu Toggle ---
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                menuIcon.classList.toggle('fa-bars');
+                menuIcon.classList.toggle('fa-xmark');
+            });
+
+            // Close mobile menu on link click
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    menuIcon.classList.add('fa-bars');
+                    menuIcon.classList.remove('fa-xmark');
+                });
+            });
+
+            // --- 2. Carousel Functionality ---
+            const slides = document.querySelectorAll('.carousel-slide');
+            const prevBtn = document.getElementById('prev-slide');
+            const nextBtn = document.getElementById('next-slide');
+            const dots = document.querySelectorAll('#carousel-dots button');
+            let currentSlide = 0;
+            let autoSlideInterval;
+
+            function showSlide(index) {
+                slides.forEach((slide, i) => {
+                    if (i === index) {
+                        slide.classList.add('active');
+                    } else {
+                        slide.classList.remove('active');
+                    }
+                });
+
+                dots.forEach((dot, i) => {
+                    if (i === index) {
+                        dot.className = 'w-3 h-3 rounded-full bg-amber-500 transition-all';
+                    } else {
+                        dot.className = 'w-3 h-3 rounded-full bg-neutral-700 hover:bg-neutral-500 transition-all';
+                    }
+                });
+
+                currentSlide = index;
+            }
+
+            function nextSlide() {
+                const next = (currentSlide + 1) % slides.length;
+                showSlide(next);
+            }
+
+            function prevSlide() {
+                const prev = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(prev);
+            }
+
+            nextBtn.addEventListener('click', () => {
+                nextSlide();
+                resetAutoplay();
+            });
+
+            prevBtn.addEventListener('click', () => {
+                prevSlide();
+                resetAutoplay();
+            });
+
+            dots.forEach((dot, i) => {
+                dot.addEventListener('click', () => {
+                    showSlide(i);
+                    resetAutoplay();
+                });
+            });
+
+            function startAutoplay() {
+                autoSlideInterval = setInterval(nextSlide, 5000);
+            }
+
+            function resetAutoplay() {
+                clearInterval(autoSlideInterval);
+                startAutoplay();
+            }
+
+            // Pause autoplay on mouse hover over carousel
+            const carouselContainer = document.getElementById('carousel-container');
+            carouselContainer.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
+            carouselContainer.addEventListener('mouseleave', () => startAutoplay());
+
+            startAutoplay();
+
+            // --- 3. Accordions Logic ---
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const content = header.nextElementSibling;
+                    const icon = header.querySelector('.fa-chevron-down');
+                    const isActive = content.classList.contains('active');
+
+                    // Close all accordion contents
+                    document.querySelectorAll('.accordion-content').forEach(c => c.classList.remove('active'));
+                    document.querySelectorAll('.accordion-header .fa-chevron-down').forEach(i => i.style.transform = 'rotate(0deg)');
+
+                    // Toggle clicked element
+                    if (!isActive) {
+                        content.classList.add('active');
+                        if (icon) icon.style.transform = 'rotate(180deg)';
+                    }
+                });
+            });
+
+            // Open first accordion by default
+            if (accordionHeaders.length > 0) {
+                accordionHeaders[0].click();
+            }
+
+            // --- 4. Filtering Logic ---
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const guitarItems = document.querySelectorAll('.guitar-item');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Update active button styles
+                    filterBtns.forEach(b => {
+                        b.className = 'filter-btn bg-neutral-800 hover:bg-neutral-700 text-slate-300 font-semibold px-5 py-2 rounded-full transition-all';
+                    });
+                    btn.className = 'filter-btn active bg-amber-500 text-neutral-950 font-bold px-5 py-2 rounded-full transition-all';
+
+                    const filter = btn.getAttribute('data-filter');
+
+                    guitarItems.forEach(item => {
+                        if (filter === 'all' || item.classList.contains(filter)) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // --- 5. Deliverable HTML Download Functionality ---
+            const downloadBtn = document.getElementById('download-btn');
+            const downloadStatus = document.getElementById('download-status');
+
+            downloadBtn.addEventListener('click', () => {
+                const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+                const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'index.html';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+
+                downloadStatus.classList.remove('hidden');
+                setTimeout(() => {
+                    downloadStatus.classList.add('hidden');
+                }, 3000);
+            });
+
+        });
+    </script>
+</body>
+</html>
